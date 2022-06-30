@@ -8,9 +8,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 mongoose
-	.connect(MONGO_SRV)
+	.connect(process.env.MONGO_SRV)
 	.then(() => console.log("Database connected ✅"))
-	.catch(e => console.log(e.message))
+	.catch((e) => console.log(e.message));
 
 const client = new Client({
 	intents: [
@@ -75,7 +75,7 @@ client.checkKO = (c, i) => {
 }
 
 
-client.login(token);
+client.login(process.env.token);
 
 client.on("interactionCreate", async (interaction) => {
 	if (!interaction.isCommand()) return;

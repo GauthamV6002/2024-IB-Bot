@@ -26,12 +26,14 @@ module.exports = {
 			);
         interaction.reply({ embeds: [embed] });
 
-        const role = client.guilds.cache.get(guildId).roles.cache.find(r => r.name === "Snowball Monarch")
+        const role = client.guilds.cache
+			.get(process.env.guildId)
+			.roles.cache.find((r) => r.name === "Snowball Monarch");
 
         users.forEach(async (user) => {
 			if (user.isSnowMonarch && user !== users[0]) {
 				const member = client.guilds.cache
-					.get(guildId)
+					.get(process.env.guildId)
 					.members.cache.get(user.discordID);
                 member.roles.remove(role);
 				user.isSnowMonarch = false;
@@ -40,7 +42,7 @@ module.exports = {
 		});
 
         const member = client.guilds.cache
-			.get(guildId)
+			.get(process.env.guildId)
 			.members.cache.get(users[0].discordID);
         
         member.roles.add(role);
