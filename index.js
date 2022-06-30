@@ -1,8 +1,16 @@
 const { Client, Intents, Collection } = require('discord.js');
-const { token } = require("./config.json");
+const { token, MONGO_SRV } = require("./config.json");
+const { newUser, updateUser, getUser, getUsers } = require("./db-commands.js");
+
+const mongoose = require("mongoose");
 
 const fs = require("node:fs");
 const path = require("node:path");
+
+mongoose
+	.connect(MONGO_SRV)
+	.then(() => console.log("Database connected ✅"))
+	.catch(e => console.log(e.message))
 
 const client = new Client({
 	intents: [
@@ -51,12 +59,20 @@ for (const file of commandFiles) {
 
 //GLOBAL CACHE PROPERTIES
 
-client.snowballInfo = {} //Player Specific Info
+client.snowKOs = {} //Player Specific Info
 client.maxSnowballs = 10;
-client.snowballHitChance = 0.3;
-client.snowballMaxHealth = 60;
-client.snowballHitDamage = 20;
-client.KOtimeout = 15;
+client.KOtimeout = 2 * 60 * 1000;
+
+client.checkKO = (c, i) => {
+	if (c.snowKOs[i.user.id]) {
+		i.reply({
+			content:
+				":boxing_glove: You've been KO'ed for 2 minutes! You can't use snowball commands in that time.",
+			ephemeral: true,
+		});
+		return true;
+	}
+}
 
 
 client.login(token);
@@ -92,3 +108,11 @@ client.on("interactionCreate", async (interaction) => {
 		});
 	}
 });
+
+
+//DB TESTING CODE
+// const run = async () => {
+// 	console.log(await getUser(989378114813583400));
+// }
+
+// run()

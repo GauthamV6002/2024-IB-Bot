@@ -1,4 +1,5 @@
-const { SlashCommandBuilder } = require('@discordjs/builders')
+const { SlashCommandBuilder } = require('@discordjs/builders');
+const { getOrNewUser } = require("../db-commands.js");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,58 +12,53 @@ module.exports = {
 				.setRequired(true)
 		),
 	async execute(interaction, client) {
-		const { snowballMaxHealth, snowballHitDamage, KOtimeout } = client;
-		if (
-			!client.snowballInfo.hasOwnProperty(interaction.user.id) ||
-			client.snowballInfo[interaction.user.id]["count"] <= 0
-		) {
-			interaction.reply(
-				"❌ You have no snowballs! Make one with /collect."
-			);
+		if (interaction.options.getUser("target").id === "989378114813583381"){
+			interaction.reply("You dare strike me? Do it again and I'll remove all your snow points!");
+			return;
+		}
+		if (client.checkKO(client, interaction)) return;
+
+		const user = await getOrNewUser(interaction.user.id, interaction.user.tag);
+		const target = await getOrNewUser(
+			interaction.options.getUser("target").id,
+			interaction.options.getUser("target").tag
+		);
+
+		if(user.snowCurrentSnowballs <= 0){
+			interaction.reply({content: "❌ You have no snowballs! Make one with /collect.", ephemeral: true});
 			return;
 		}
 
-		target = interaction.options.getUser("target");
+		if (Math.random() <= target.snowSpeed) {
+			if(target.snowCurrentHealth - user.snowAttack <= 0){
+				target.snowCurrentHealth = target.snowHealth; 
+				interaction.reply(`:boxing_glove: **KO!** ${interaction.options.getUser("target")} was hit!`);
+				client.snowKOs[interaction.user.id] = true;
+				setTimeout(() => {
+					client.snowKOs[interaction.user.id] = false;
+				}, client.KOtimeout);
 
-		if (Math.random() <= client.snowballHitChance) {
-			if (client.snowballInfo.hasOwnProperty(target.id)) {
-				if (
-					client.snowballInfo[target.id]["health"] -
-						client.snowballHitDamage <=
-					0
-				) {
-					target.timeout(KOtimeout * 1000);
-					client.snowballInfo[target.id]["health"] =
-						snowballHitDamage;
-					interaction.reply(
-						`KO! Now, ${target}, shut up for ${KOtimeout} seconds.`
-					);
-					return;
-				}
-
-				client.snowballInfo[target.id]["health"] -= snowballHitDamage;
-				client.snowballInfo[target.id]["count"] = 0;
-				interaction.reply(
-					`🎯 The snowball Hit! ${target} is now at ${
-						client.snowballInfo[target.id]["health"]
-					} Health!`
-				);
+				target.snowPoints--;
+				user.snowKOs++;
+				user.snowHits++;
+				user.snowPoints += 2;
 			} else {
-				client.snowballInfo[target.id] = {};
-				client.snowballInfo[target.id]["count"] = 0;
-				client.snowballInfo[target.id]["health"] = snowballMaxHealth;
-				interaction.reply({
-					content: "😔 Oops, you missed!",
-					ephemeral: true,
-				});
-			}
-		} else
-			interaction.reply({
-				content: "😔 Oops, you missed!",
-				ephemeral: true,
-			});
-
-		client.snowballInfo[interaction.user.id]["count"]--;
-	},
-	cooldown: 15 * 1000,
+				target.snowCurrentHealth -= user.snowAttack;
+				target.snowCurrentSnowballs = 0;
+				interaction.reply(
+					`🎯 The snowball hit! ${interaction.options.getUser(
+						"target"
+					)} is now at ${target.snowCurrentHealth} Health!`
+				);
+				user.snowPoints++;
+				user.snowHits++;
+			}	
+		} else {
+			interaction.reply("😔 Oops, you missed!");
+		}
+		user.snowCurrentSnowballs--;
+		user.snowThrown++;
+		user.save();
+		target.save();
+	}
 };
