@@ -1,5 +1,5 @@
 const { Client, Intents, Collection } = require('discord.js');
-const { token, MONGO_SRV } = require("./config.json");
+// const { token, MONGO_SRV } = require("./config.json");
 const { newUser, updateUser, getUser, getUsers } = require("./db-commands.js");
 
 const mongoose = require("mongoose");
