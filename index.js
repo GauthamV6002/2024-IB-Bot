@@ -1,5 +1,5 @@
 const { Client, Intents, Collection } = require('discord.js');
-// const { token, MONGO_SRV } = require("./config.json");
+const { token, MONGO_SRV } = require("./config.json");
 const { newUser, updateUser, getUser, getUsers } = require("./db-commands.js");
 
 const mongoose = require("mongoose");
@@ -8,7 +8,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 mongoose
-	.connect(process.env.MONGO_SRV)
+	.connect(MONGO_SRV)
 	.then(() => console.log("Database connected ✅"))
 	.catch((e) => console.log(e.message));
 
@@ -75,7 +75,7 @@ client.checkKO = (c, i) => {
 }
 
 
-client.login(process.env.token);
+client.login(token);
 
 client.on("interactionCreate", async (interaction) => {
 	if (!interaction.isCommand()) return;

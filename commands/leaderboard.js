@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 const { MessageEmbed } = require("discord.js");
 const { getUsers } = require("../db-commands.js");
-// const { guildId } = require("../config.json");
+const { guildId } = require("../config.json")
 
 const leaderboardLimit = 10
 
@@ -27,13 +27,13 @@ module.exports = {
         interaction.reply({ embeds: [embed] });
 
         const role = client.guilds.cache
-			.get(process.env.guildId)
+			.get(guildId)
 			.roles.cache.find((r) => r.name === "Snowball Monarch");
 
         users.forEach(async (user) => {
 			if (user.isSnowMonarch && user !== users[0]) {
 				const member = client.guilds.cache
-					.get(process.env.guildId)
+					.get(guildId)
 					.members.cache.get(user.discordID);
                 member.roles.remove(role);
 				user.isSnowMonarch = false;
@@ -42,7 +42,7 @@ module.exports = {
 		});
 
         const member = client.guilds.cache
-			.get(process.env.guildId)
+			.get(guildId)
 			.members.cache.get(users[0].discordID);
         
         member.roles.add(role);

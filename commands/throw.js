@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getOrNewUser } = require("../db-commands.js");
+const { guildId } = require("../config.json");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,11 +13,33 @@ module.exports = {
 				.setRequired(true)
 		),
 	async execute(interaction, client) {
+		if(interaction.options.getUser("target").id === interaction.user.id){
+			interaction.reply({content: "Why are you shooting at yourself?", ephemeral: true})
+			return;
+		}
 		if (interaction.options.getUser("target").id === "989378114813583381"){
 			interaction.reply("You dare strike me? Do it again and I'll remove all your snow points!");
 			return;
 		}
-		if (client.checkKO(client, interaction)) return;
+		const guild = client.guilds.cache.get(guildId);
+		const targetMember = guild.members.cache.get((interaction.options.getUser("target").id).toString());
+		const userMember = guild.members.cache.get((interaction.user.id).toString());
+
+		console.log(targetMember.presence);
+
+		try {	
+			if(targetMember.presence.status === "offline" || userMember.presence.status === "offline"){
+				interaction.reply("You can't throw if you are offline, or throw at offline people!");
+				return;
+			}
+		} catch (e) {
+			interaction.reply("You can't throw if you are offline, or throw at offline people!");
+			return;
+		}
+
+
+
+		if (client.checkKO(client, interaction)) return; //reply in checkKO()
 
 		const user = await getOrNewUser(interaction.user.id, interaction.user.tag);
 		const target = await getOrNewUser(
