@@ -3,7 +3,8 @@ const { MessageEmbed } = require("discord.js");
 const { getUsers } = require("../db-commands.js");
 const { guildId } = require("../config.json")
 
-const leaderboardLimit = 10
+const leaderboardLimit = 10;
+const ROLE_NAME = "Strongest Right Hand";
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -20,15 +21,13 @@ module.exports = {
         const embed = new MessageEmbed()
 			.setColor("#b3fcff")
 			.setTitle("Snowball Fight Leaderboard")
-			.setDescription("1st Place receives the ``Snowball King`` role!")
-			.addFields(
-				{ name: "Rankings", value: tags },
-			);
+			.setDescription(`1st Place receives the \`\`${ROLE_NAME}\`\` role!`)
+			.addFields({ name: "Rankings", value: tags });
         interaction.reply({ embeds: [embed] });
 
         const role = client.guilds.cache
 			.get(guildId)
-			.roles.cache.find((r) => r.name === "Snowball Monarch");
+			.roles.cache.find((r) => r.name === ROLE_NAME);
 
         users.forEach(async (user) => {
 			if (user.isSnowMonarch && user !== users[0]) {

@@ -10,7 +10,7 @@ module.exports = {
 
         const user = await getOrNewUser(interaction.user.id, interaction.user.tag);
         if (user.snowCurrentSnowballs >= client.maxSnowballs){
-			interaction.reply("🪣 You're already at 10 snowballs! Throw with /throw one to free up some space.");
+			interaction.reply({content: "🪣 You're already at 10 snowballs! Throw with /throw one to free up some space.", ephemeral: true });
             return;
         } else {
             user.snowCurrentSnowballs++;    
@@ -23,5 +23,5 @@ module.exports = {
 		await user.save();
 
     },
-    cooldown: 30 * 1000,
+    cooldown: 0,
 }

@@ -70,6 +70,7 @@ client.checkKO = (c, i) => {
 				":boxing_glove: You've been KO'ed for 2 minutes! You can't use snowball commands in that time.",
 			ephemeral: true,
 		});
+		console.log("run")
 		return true;
 	}
 }

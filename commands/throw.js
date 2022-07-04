@@ -25,7 +25,6 @@ module.exports = {
 		const targetMember = guild.members.cache.get((interaction.options.getUser("target").id).toString());
 		const userMember = guild.members.cache.get((interaction.user.id).toString());
 
-		console.log(targetMember.presence);
 
 		try {	
 			if(targetMember.presence.status === "offline" || userMember.presence.status === "offline"){
@@ -36,7 +35,6 @@ module.exports = {
 			interaction.reply("You can't throw if you are offline, or throw at offline people!");
 			return;
 		}
-
 
 
 		if (client.checkKO(client, interaction)) return; //reply in checkKO()
@@ -57,17 +55,19 @@ module.exports = {
 				target.snowCurrentHealth = target.snowHealth; 
 				interaction.reply(`:boxing_glove: **KO!** ${interaction.options.getUser("target")} was hit!`);
 				client.snowKOs[interaction.user.id] = true;
+				console.log(client.snowKOs[interaction.user.id]);
 				setTimeout(() => {
 					client.snowKOs[interaction.user.id] = false;
+					console.log(client.snowKOs[interaction.user.id]);
 				}, client.KOtimeout);
 
 				target.snowPoints--;
+				target.snowCurrentSnowballs = 0;
 				user.snowKOs++;
 				user.snowHits++;
 				user.snowPoints += 2;
 			} else {
 				target.snowCurrentHealth -= user.snowAttack;
-				target.snowCurrentSnowballs = 0;
 				interaction.reply(
 					`🎯 The snowball hit! ${interaction.options.getUser(
 						"target"
@@ -77,7 +77,7 @@ module.exports = {
 				user.snowHits++;
 			}	
 		} else {
-			interaction.reply("😔 Oops, you missed!");
+			interaction.reply(`😔 Oops, you missed your shot at ${interaction.options.getUser("target")}!`);
 		}
 		user.snowCurrentSnowballs--;
 		user.snowThrown++;
