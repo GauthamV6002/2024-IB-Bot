@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getOrNewUser } = require("../db-commands.js");
-const { guildId } = require("../config.json");
+const { guildId, clientId } = require("../config.json");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -17,7 +17,7 @@ module.exports = {
 			interaction.reply({content: "Why are you shooting at yourself?", ephemeral: true})
 			return;
 		}
-		if (interaction.options.getUser("target").id === "989378114813583381"){
+		if (interaction.options.getUser("target").id === clientId){
 			interaction.reply("You dare strike me? Do it again and I'll remove all your snow points!");
 			return;
 		}
