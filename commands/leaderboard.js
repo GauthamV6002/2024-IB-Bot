@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
 const { MessageEmbed } = require("discord.js");
 const { getUsers } = require("../db-commands.js");
-const { guildId } = require("./config.json");
+const { guildId } = require("../config.json");
 
 const leaderboardLimit = 10;
 const ROLE_NAME = "Strongest Right Hand";
