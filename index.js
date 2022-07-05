@@ -1,4 +1,5 @@
 const { Client, Intents, Collection } = require('discord.js');
+const express = require("express");
 const { token, MONGO_SRV } = require("./config.json");
 const { newUser, updateUser, getUser, getUsers } = require("./db-commands.js");
 
@@ -6,6 +7,9 @@ const mongoose = require("mongoose");
 
 const fs = require("node:fs");
 const path = require("node:path");
+
+const app = express();
+const PORT = 8080;
 
 mongoose
 	.connect(MONGO_SRV)
@@ -110,10 +114,8 @@ client.on("interactionCreate", async (interaction) => {
 	}
 });
 
+app.get("/", async function (req, res) {
+	res.send("IB Server Bot! W Netlifly")
+})
+app.listen(PORT, () => console.log("Hosting server is running! 🚀"));
 
-//DB TESTING CODE
-// const run = async () => {
-// 	console.log(await getUser(989378114813583400));
-// }
-
-// run()
