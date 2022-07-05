@@ -1,5 +1,5 @@
 const { Client, Intents, Collection } = require('discord.js');
-const { token, MONGO_SRV } = process.env;
+const { token, MONGO_SRV } = require("./config.json");
 const { newUser, updateUser, getUser, getUsers } = require("./db-commands.js");
 
 const mongoose = require("mongoose");
@@ -28,7 +28,7 @@ const commandFiles = fs
 	.readdirSync(commandsPath)
 	.filter((file) => file.endsWith(".js"));
 
-const eventsPath = path.join(__dirname, "Events");
+const eventsPath = path.join(__dirname, "events");
 const eventFiles = fs
 	.readdirSync(eventsPath)
 	.filter((file) => file.endsWith(".js"));
