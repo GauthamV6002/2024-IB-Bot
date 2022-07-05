@@ -114,6 +114,7 @@ client.on("interactionCreate", async (interaction) => {
 	}
 });
 
+
 app.get("/", async function (req, res) {
 	res.send("IB Server Bot! W Netlifly")
 })
