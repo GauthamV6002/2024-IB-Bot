@@ -23,5 +23,5 @@ module.exports = {
 		await user.save();
 
     },
-    cooldown: 0,
+    cooldown: 30 * 1000,
 }
