@@ -116,7 +116,7 @@ client.on("interactionCreate", async (interaction) => {
 
 
 app.get("/", async function (req, res) {
-	res.send("IB Server Bot! W Netlifly")
+	res.send("IB Server Bot!")
 })
 app.listen(PORT, () => console.log("Hosting server is running! 🚀"));
 
