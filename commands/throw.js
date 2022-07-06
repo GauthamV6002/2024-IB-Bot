@@ -2,6 +2,15 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getOrNewUser } = require("../db-commands.js");
 const { guildId, clientId } = require("../config.json");
 
+const BOT_IDS = [
+	"993624726066962442",
+	"235148962103951360",
+	"155149108183695360",
+	"547905866255433758",
+	"889078613817831495",
+	"993622734246527006"
+]; //ib, carl, dyno, hydra, leo, physics
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("throw")
@@ -19,6 +28,10 @@ module.exports = {
 		}
 		if (interaction.options.getUser("target").id === clientId){
 			interaction.reply("You dare strike me? Do it again and I'll remove all your snow points!");
+			return;
+		}
+		if(BOT_IDS.includes(interaction.options.getUser("target").id)){
+			interaction.reply({content: "Bruh no farming bots", ephemeral: true})
 			return;
 		}
 		const guild = client.guilds.cache.get(guildId);
