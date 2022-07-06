@@ -18,6 +18,6 @@ module.exports = {
 				{ name: "/store", value: "A store to buy items for the snowball fight." },
 				{ name: "/snowhelp", value: "Shows this command." }
 			);
-        interaction.reply({ embeds: [embed] });
+        interaction.reply({ embeds: [embed], ephemeral: true });
     },
 }
