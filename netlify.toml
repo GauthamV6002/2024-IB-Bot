@@ -1,7 +1,0 @@
-[build]
-    commands = "commands"
-    events = "events"
-    models = "models"
-
-[dev]
-  publish = "dist"
