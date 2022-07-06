@@ -83,7 +83,7 @@ module.exports = {
                         }, item.timer)
                     }
 
-                    i.reply({ content: `${item.emoji} ${item.name} were successfully bought!`, ephemeral: true })
+                    i.reply(`${item.emoji} ${item.name} was successfully bought by ${interaction.user}!`)
                 }
             });
 
