@@ -2,11 +2,6 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const { getOrNewUser } = require("../db-commands.js");
 
-const collectors = []; //i give up
-const stopCollectors = () => {
-	collectors.map((c) => c.stop());
-}
-
 const storeItems = [
 	{
 		id: "snow-armour",
@@ -70,30 +65,26 @@ module.exports = {
             .setFooter({ text: "Click the buttons below to purchase an item!\nPopup times out in 60 seconds."});
         
         const createPurchaseBtn = (item) => {
+			itemId = `${item.id}-${Math.floor(Math.random() * 1000)}`;
+			console.log(itemId);
+
             const collector = interaction.channel.createMessageComponentCollector({
-                filter: (i) => i.customId === item.id && i.user.id === interaction.user.id,
+                filter: (i) => i.customId === itemId && i.user.id === interaction.user.id,
                 time: 60000,
             });
-			collectors.push(collector);
-            
+			 
             collector.on("collect", async (i) => {
                 user = await getOrNewUser(i.user.id)
                 if (user.snowPoints - item.cost < 0) {
-                    i.update({
+                    i.reply({
 						content: `You're too poor. You only have ${user.snowPoints} :snowflake:.`,
 						ephemeral: true,
-						embeds: [],
-						components: [],
 					});
-					stopCollectors()
 				} else if (user[item.stat] + item.adder > Number(item.cap) && item.cap) {
-					i.update({
+					i.reply({
 						content: `❌ You can't buy anymore of this item! The cap for this item is ${item.cap}.`,
 						ephemeral: true,
-						embeds: [],
-						components: [],
 					});
-					stopCollectors();
 				} else {
 					user.snowPoints -= item.cost;
 					user[item.stat] += item.adder;
@@ -106,17 +97,12 @@ module.exports = {
 						}, item.timer);
 					}
 
-					i.update({
-						content: `${item.emoji} ${item.name} was successfully bought by ${interaction.user}!`, 						ephemeral: true,
-						embeds: [],
-						components: []
-					});
-					stopCollectors();
+					i.reply(`${item.emoji} ${item.name} was successfully bought by ${interaction.user}!`);
 				}
             });
 
 			return new MessageButton()
-				.setCustomId(item.id)
+				.setCustomId(itemId)
 				.setLabel(`${item.emoji}  (${item.cost}❄️)`)
 				.setStyle("PRIMARY");
 		};
