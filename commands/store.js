@@ -65,8 +65,7 @@ module.exports = {
             .setFooter({ text: "Click the buttons below to purchase an item!\nPopup times out in 60 seconds."});
         
         const createPurchaseBtn = (item) => {
-			itemId = `${item.id}-${Math.floor(Math.random() * 1000)}`;
-			console.log(itemId);
+			const itemId = `${item.id}-${Math.floor(Math.random() * 1000)}`;
 
             const collector = interaction.channel.createMessageComponentCollector({
                 filter: (i) => i.customId === itemId && i.user.id === interaction.user.id,
@@ -74,6 +73,7 @@ module.exports = {
             });
 			 
             collector.on("collect", async (i) => {
+				console.log("collected!")
                 user = await getOrNewUser(i.user.id)
                 if (user.snowPoints - item.cost < 0) {
                     i.reply({
