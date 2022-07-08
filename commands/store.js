@@ -75,12 +75,6 @@ module.exports = {
                 user = await getOrNewUser(i.user.id)
                 if (user.snowPoints - item.cost < 0) {
                     i.reply({ content: `You're too poor. You only have ${user.snowPoints} :snowflake:.`, ephemeral: true});
-                } else if (item.cap) {
-					// if(user[item.stat] + item.adder > item.cap){
-					// 	// i.reply(`❌ You can't buy anymore of this item! The cap for this item is ${cap}. `)
-					// 	console.log("wtf")
-					// }
-				// 	console.log("WHAT")
 				} else {
 					user.snowPoints -= item.cost;
 					user[item.stat] += item.adder;
