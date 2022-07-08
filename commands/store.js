@@ -63,7 +63,7 @@ module.exports = {
                 name: `${item.emoji} ${item.name}`, 
                 value: `(${item.cost} :snowflake:) ${item.effect}`,
             })))
-            .setFooter({ text: "Click the buttons below to purchase an item!\nPopup times out in **60 seconds**."});
+            .setFooter({ text: "Click the buttons below to purchase an item!\nPopup times out in 60 seconds."});
         
         const createPurchaseBtn = (item) => {
             const collector = interaction.channel.createMessageComponentCollector({
@@ -76,7 +76,7 @@ module.exports = {
                 if (user.snowPoints - item.cost < 0) {
                     i.reply({ content: `You're too poor. You only have ${user.snowPoints} :snowflake:.`, ephemeral: true});
                 } else if (item.cap) {
-					if((user[item.stat] + item.adder > item.cap)){
+					if(user[item.stat] + item.adder > item.cap){
 						i.reply(`❌ You can't buy anymore of this item! The cap for this item is ${cap}. `)
 					}
 				} else {
