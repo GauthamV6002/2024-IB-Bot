@@ -74,16 +74,9 @@ module.exports = {
             collector.on("collect", async (i) => {
                 user = await getOrNewUser(i.user.id)
                 if (user.snowPoints - item.cost < 0) {
-                    i.update({ content: `You're too poor. You only have ${user.snowPoints} :snowflake:.`, ephemeral: true, embeds: [], components: []});
-					return;
+                    i.followUp({ content: `You're too poor. You only have ${user.snowPoints} :snowflake:.`, ephemeral: true});
 				} else if (user[item.stat] + item.adder > Number(item.cap) && item.cap) {
-					i.update({
-						content: `❌ You can't buy anymore of this item! The cap for this item is ${item.cap}.`,
-						ephemeral: true,
-						embeds: [],
-						components: []
-					});
-					return;
+					i.followUp(`❌ You can't buy anymore of this item! The cap for this item is ${item.cap}.`);
 				} else {
 					user.snowPoints -= item.cost;
 					user[item.stat] += item.adder;
@@ -96,11 +89,9 @@ module.exports = {
 						}, item.timer);
 					}
 
-					i.update({
-						content: `${item.emoji} ${item.name} was successfully bought by ${interaction.user}!`,
-						embeds: [],
-						components: [],
-					});
+					i.followUp(
+						`${item.emoji} ${item.name} was successfully bought by ${interaction.user}!`
+					);
 				}
             });
 
