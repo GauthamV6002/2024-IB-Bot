@@ -2,6 +2,10 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const { getOrNewUser } = require("../db-commands.js");
 
+const collectors = []; //i give up
+const stopCollectors = () => {
+	collectors.map((c) => c.stop());
+}
 
 const storeItems = [
 	{
@@ -70,6 +74,7 @@ module.exports = {
                 filter: (i) => i.customId === item.id && i.user.id === interaction.user.id,
                 time: 60000,
             });
+			collectors.push(collector);
             
             collector.on("collect", async (i) => {
                 user = await getOrNewUser(i.user.id)
@@ -80,7 +85,7 @@ module.exports = {
 						embeds: [],
 						components: [],
 					});
-					collector.stop();
+					stopCollectors()
 				} else if (user[item.stat] + item.adder > Number(item.cap) && item.cap) {
 					i.update({
 						content: `❌ You can't buy anymore of this item! The cap for this item is ${item.cap}.`,
@@ -88,7 +93,7 @@ module.exports = {
 						embeds: [],
 						components: [],
 					});
-					collector.stop();
+					stopCollectors();
 				} else {
 					user.snowPoints -= item.cost;
 					user[item.stat] += item.adder;
@@ -106,7 +111,7 @@ module.exports = {
 						embeds: [],
 						components: []
 					});
-					collector.stop();
+					stopCollectors();
 				}
             });
 

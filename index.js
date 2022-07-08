@@ -116,7 +116,8 @@ client.on("interactionCreate", async (interaction) => {
 
 
 app.get("/", async function (req, res) {
-	res.send("IB Server Bot!")
+	res.send("IB Server Bot! Visiting this site will restart the bot if it ever goes down.")
 })
+
 app.listen(process.env.PORT || PORT, () => console.log("Hosting server is running! 🚀"));
 
