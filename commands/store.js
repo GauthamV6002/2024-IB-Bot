@@ -80,6 +80,7 @@ module.exports = {
 						embeds: [],
 						components: [],
 					});
+					collector.stop();
 				} else if (user[item.stat] + item.adder > Number(item.cap) && item.cap) {
 					i.update({
 						content: `❌ You can't buy anymore of this item! The cap for this item is ${item.cap}.`,
@@ -87,6 +88,7 @@ module.exports = {
 						embeds: [],
 						components: [],
 					});
+					collector.stop();
 				} else {
 					user.snowPoints -= item.cost;
 					user[item.stat] += item.adder;
@@ -104,6 +106,7 @@ module.exports = {
 						embeds: [],
 						components: []
 					});
+					collector.stop();
 				}
             });
 
