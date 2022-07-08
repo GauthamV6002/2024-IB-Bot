@@ -12,6 +12,7 @@ const storeItems = [
 		stat: "snowHealth",
 		cost: 50,
 		adder: 10,
+		cap: 80,
 		timer: null,
 	},
 	{
@@ -22,6 +23,7 @@ const storeItems = [
 		stat: "snowAttack",
 		cost: 50,
 		adder: 10,
+		cap: 60,
 		timer: null,
 	},
 	{
@@ -31,7 +33,8 @@ const storeItems = [
 		emoji: "⛸️",
 		stat: "snowSpeed",
 		cost: 20,
-		adder: 3,
+		adder: -0.3,
+		cap: null,
 		timer: 60 * 1000,
 	},
 	{
@@ -42,6 +45,7 @@ const storeItems = [
 		stat: "snowAttack",
 		cost: 10,
 		adder: 10000,
+		cap: null,
 		timer: 60 * 1000,
 	},
 ];
