@@ -75,20 +75,26 @@ module.exports = {
                 user = await getOrNewUser(i.user.id)
                 if (user.snowPoints - item.cost < 0) {
                     i.reply({ content: `You're too poor. You only have ${user.snowPoints} :snowflake:.`, ephemeral: true});
-                } else {
-                    user.snowPoints -= item.cost;
-                    user[item.stat] += item.adder;
-                    user.save();
+                } else if (item.cap) {
+					if((user[item.stat] + item.adder > item.cap)){
+						i.reply(`❌ You can't buy anymore of this item! The cap for this item is ${cap}. `)
+					}
+				} else {
+					user.snowPoints -= item.cost;
+					user[item.stat] += item.adder;
+					user.save();
 
-                    if(item.timer){
-                        setTimeout(() => {
-                            user[item.stat] -= item.adder;
-                            user.save();
-                        }, item.timer)
-                    }
+					if (item.timer) {
+						setTimeout(() => {
+							user[item.stat] -= item.adder;
+							user.save();
+						}, item.timer);
+					}
 
-                    i.reply(`${item.emoji} ${item.name} was successfully bought by ${interaction.user}!`)
-                }
+					i.reply(
+						`${item.emoji} ${item.name} was successfully bought by ${interaction.user}!`
+					);
+				}
             });
 
 			return new MessageButton()
