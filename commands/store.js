@@ -75,6 +75,7 @@ module.exports = {
                 user = await getOrNewUser(i.user.id)
                 if (user.snowPoints - item.cost < 0) {
                     i.update({ content: `You're too poor. You only have ${user.snowPoints} :snowflake:.`, ephemeral: true, embeds: [], components: []});
+					return;
 				} else if (user[item.stat] + item.adder > Number(item.cap) && item.cap) {
 					i.update({
 						content: `❌ You can't buy anymore of this item! The cap for this item is ${item.cap}.`,
@@ -82,6 +83,7 @@ module.exports = {
 						embeds: [],
 						components: []
 					});
+					return;
 				} else {
 					user.snowPoints -= item.cost;
 					user[item.stat] += item.adder;
@@ -96,7 +98,6 @@ module.exports = {
 
 					i.update({
 						content: `${item.emoji} ${item.name} was successfully bought by ${interaction.user}!`,
-						ephemeral: true,
 						embeds: [],
 						components: [],
 					});
