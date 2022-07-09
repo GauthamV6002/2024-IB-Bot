@@ -24,17 +24,19 @@ module.exports = {
         
         modal.addComponents(firstActionRow, secondActionRow);
         await interaction.showModal(modal);
+        
+        const reportNumber = Math.floor(Math.random() * 10000);
 
         client.on("interactionCreate", (i) => {
 			if (!i.isModalSubmit()) return;
 			const subject = i.fields.getTextInputValue("bug-report-subject");
 			const description = i.fields.getTextInputValue("bug-report-description");
             client.users.fetch("901273742901133393", false).then((user) => {
-                const msg = `===================================================================\n**Bug Report #${Math.floor(Math.random() * 10000)}: \`${subject}\`**\n**Submitted by** \`${i.user.tag}\`\n\n**Description:** ${description}`
+                const msg = `===================================================================\n**Bug Report #${reportNumber}: \`${subject}\`**\n**Submitted by** \`${i.user.tag}\`\n\n**Description:** ${description}`;
 				user.send(msg);
 			});
 			i.reply({
-				content: `✅ Your bug report: \`${subject}\` was submitted.`,
+				content: `✅ Your bug report: \`${subject}\` (#${reportNumber}) was submitted.`,
 				ephemeral: true,
 			});
 		});
