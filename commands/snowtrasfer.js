@@ -25,9 +25,13 @@ module.exports = {
 			interaction.options.getUser("receiver").tag
 		);
         const amount = interaction.options.getInteger("amount");
+        if(amount < 1){
+            interaction.reply({content: "❌ Pick a value over 0.", ephemeral: true});
+            return;
+        }
 
         if(user.snowPoints - amount < 0){
-            interaction.reply("❌ You don't have enough snowpoints!");
+            interaction.reply({content: "❌ You don't have enough snowpoints!", ephemeral: true});
             return;
         }
 
@@ -36,6 +40,6 @@ module.exports = {
         user.save();
         receiver.save();
 
-        interaction.reply("✅ Transfer Successful!");
+        interaction.reply(`✅ Transfer Successful! ${amount} :snowflake: was transferred to ${interaction.options.getUser("receiver")} by ${interaction.user}.`);
     },
 }
