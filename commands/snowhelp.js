@@ -16,6 +16,7 @@ module.exports = {
 				{ name: "/snowstats", value: "Get your statitics for the snowball fight. Shows attack, max health, snow points, and more. Wondering why its so complicated? We're ib." },
 				{ name: "/leaderboard", value: "Shows the snowball fight leaderboard, organized by snowpoints." },
 				{ name: "/store", value: "A store to buy items for the snowball fight." },
+				{ name: "/snowtransfer", value: "Transfer a certain amount of snowpoints to other players." },
 				{ name: "/snowhelp", value: "Shows this command." }
 			);
         interaction.reply({ embeds: [embed], ephemeral: true });
