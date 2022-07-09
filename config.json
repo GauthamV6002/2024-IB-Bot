@@ -1,6 +1,6 @@
 {
-	"clientId": "994708866740801678",
-	"guildId": "994703408302936224",
+	"clientId": "993624726066962442",
+	"guildId": "987391517633167423",
 	"token": "OTkzNjI0NzI2MDY2OTYyNDQy.GclPYm.BN-Ry8nCGMgcSNX3ZHc6Qvik5LyR5lIKL8KkIs",
 	"test_token": "OTk0NzA4ODY2NzQwODAxNjc4.GdkYbx.1vBeNORvrIaEY-UbGVpjZNoLAw_Rd6qS3iD5P8",
 	"MONGO_SRV": "mongodb+srv://netlify-user:ESuunoCgXvyNi15j@cluster0.kciq5.mongodb.net/?retryWrites=true&w=majority"
