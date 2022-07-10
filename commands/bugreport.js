@@ -32,11 +32,15 @@ module.exports = {
 			const subject = i.fields.getTextInputValue("bug-report-subject");
 			const description = i.fields.getTextInputValue("bug-report-description");
             client.users.fetch("901273742901133393", false).then((user) => {
-                const msg = `===================================================================\n**Bug Report #${reportNumber}: \`${subject}\`**\n**Submitted by** \`${i.user.tag}\`\n\n**Description:** ${description}`;
-				user.send(msg);
+				user.send({embeds: [{
+                    color: "#e6e4d5",
+                    title: `Bug Report #${reportNumber}: ${subject}`,
+                    description: `Submitted by ${i.user.tag}`,
+                    fields: [{name: "Description", value: description}]
+                }]});
 			});
 			i.reply({
-				content: `✅ Your bug report: \`${subject}\` (#${reportNumber}) was submitted.`,
+                embeds: [{color: "#e6e4d5", description: `✅ Your bug report: \`${subject}\` (#${reportNumber}) was submitted.`}],
 				ephemeral: true,
 			});
 		});

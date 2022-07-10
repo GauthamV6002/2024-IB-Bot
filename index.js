@@ -1,6 +1,6 @@
 const { Client, Intents, Collection } = require('discord.js');
 const express = require("express");
-const { token, MONGO_SRV } = require("./config.json");
+const { token, MONGO_SRV, guildId } = require("./config.json");
 const { newUser, updateUser, getUser, getUsers } = require("./db-commands.js");
 
 const mongoose = require("mongoose");
@@ -41,10 +41,15 @@ const eventFiles = fs
 for (const file of eventFiles) {
 	const filePath = path.join(eventsPath, file);
 	const event = require(filePath);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args));
+	//Passes client *before* ...args
+	try{
+		if (event.once) {
+			client.once(event.name, async (...args) => { await event.execute(client, ...args) });
+		} else {
+			client.on(event.name, async (...args) => { await event.execute(client, ...args) });
+		}
+	} catch (e){
+		console.log(`Found an error when running an event: ${e}`)
 	}
 }
 
@@ -78,6 +83,11 @@ client.checkKO = (c, i) => {
 		return true;
 	}
 }
+
+client.simpleEmbed = (msg, color, ephemeral=false, args={}) => ({ embeds: [{ color: color, title: msg }], ephemeral: ephemeral, ...args });
+client.simpleEmbedSmall = (msg, color, ephemeral=false, args={}) => ({ embeds: [{ color: color, description: msg }], ephemeral: ephemeral, ...args });
+client.getGuildCache = () => client.guilds.cache.get(guildId)
+client.getMemberCache = (id) => client.guilds.cache.get(guildId).members.cache.get(id);
 
 
 client.login(token);
