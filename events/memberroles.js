@@ -173,7 +173,7 @@ module.exports = {
 
 		await member.send(
 			client.simpleEmbed(
-				"Welcome to the Class of 2024 IB Server! Get setup with your roles here in order to be able to talk on the server.",
+				"Welcome to the Class of 2024 IB Server! Get setup with your roles here in order to be able to talk on the server. If you need to, you can change these at anytime with /selectclasses.",
 				"#a1edc3",
 				{
 					thumbnail: {
