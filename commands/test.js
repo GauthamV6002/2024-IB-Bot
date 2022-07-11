@@ -159,133 +159,137 @@ module.exports = {
 
 		const invalidRoleMsg = "Looks like your roles on the 2024 IB server do not meet IB requirements or have conflicts in them! Please reselect your classes below."
 		invalidMembers.forEach(async (m) => {
-			m.send(client.simpleEmbedSmall(invalidRoleMsg, "#fc2c03", false));
-
-			let role_names = [];
-			const programmeRand = Math.floor(Math.random() * 100000);
-			const coursesRand = Math.floor(Math.random() * 100000);
-
-			const fullOrPartialRow = new MessageActionRow().addComponents(
-				new MessageSelectMenu()
-					.setCustomId(`select-full-or-partial-${programmeRand}`)
-					.setPlaceholder("Select an IB Program")
-					.addOptions([
-						{ label: "Full IB", value: "Full IB" },
-						{ label: "Partial IB", value: "Partial IB" },
-					])
-			);
-
-			const getCoursesRow = (ibProgram, rand) =>
-				new MessageActionRow().addComponents(
+			try{
+				m.send(client.simpleEmbedSmall(invalidRoleMsg, "#fc2c03", false));
+	
+				let role_names = [];
+				const programmeRand = Math.floor(Math.random() * 100000);
+				const coursesRand = Math.floor(Math.random() * 100000);
+	
+				const fullOrPartialRow = new MessageActionRow().addComponents(
 					new MessageSelectMenu()
-						.setCustomId(`select-courses-${rand}`)
-						.setPlaceholder("Select your courses")
-						.setMinValues(ibProgram === "Full IB" ? 6 : 2)
-						.setMaxValues(ibProgram === "Full IB" ? 6 : 5)
+						.setCustomId(`select-full-or-partial-${programmeRand}`)
+						.setPlaceholder("Select an IB Program")
 						.addOptions([
-							{ label: "Physics SL", value: "Physics SL" },
-							{ label: "Biology SL", value: "Biology SL" },
-							{ label: "Chemistry HL", value: "Chemistry HL" },
-							{ label: "Math HL", value: "Math HL" },
-							{ label: "Math SL", value: "Math SL" },
-							{ label: "ELA HL", value: "ELA HL" },
-							{ label: "Psychology SL", value: "Psychology SL" },
-							{
-								label: "World History HL",
-								value: "World History HL",
-							},
-							{
-								label: "Computer Science HL",
-								value: "Computer Science HL",
-							},
-							{
-								label: "Business Management SL",
-								value: "Business Management SL",
-							},
-							{ label: "Economics HL", value: "Economics HL" },
-							{ label: "Art HL", value: "Art HL" },
-							{ label: "Cantonese SL", value: "Cantonese SL" },
-							{ label: "French SL", value: "French SL" },
-							{
-								label: "French ab initio",
-								value: "French ab initio",
-							},
-							{
-								label: "German ab initio",
-								value: "German ab initio",
-							},
-							{ label: "Mandarin SL", value: "Mandarin SL" },
-							{
-								label: "Mandarin ab initio",
-								value: "Mandarin ab initio",
-							},
-							{
-								label: "Spanish ab initio",
-								value: "Spanish ab initio",
-							},
+							{ label: "Full IB", value: "Full IB" },
+							{ label: "Partial IB", value: "Partial IB" },
 						])
-			);
-
-			await m.send(
-				client.simpleEmbed(
-					"First, choose either full or partial IB.",
-					"#a1edc3",
-					false,
-					{ components: [fullOrPartialRow] }
-				)
-			);
-
-			client.on('interactionCreate', async (i) => {
-				if (!i.isSelectMenu()) return;
-			
-				if (i.customId === `select-full-or-partial-${programmeRand}`) {
-					role_names = i.values;
-					const coursesRow = getCoursesRow(role_names[0], coursesRand);
-					i.update(
-						client.simpleEmbed(
-							"Great! Next, pick your courses. (IB courses only)",
-							"#a1edc3",
-							false,
-							{ components: [coursesRow] }
-						)
-					);
-
-				} else if (i.customId === `select-courses-${coursesRand}`){
-					const courses = i.values;
-					const { status, msg } = checkCourses(courses, role_names[0] === "Full IB");
-					if(status){
-						i.update(
-							client.simpleEmbed(
-								"✅ Perfect, you're all set! If you don't get verified/don't recieve roles on server due to an error, contact an admin for manual verification.",
-								"#a1edc3",
-								false,
-								{ components: [] }
-							)
-						);
-						
-						//ROLES CODE
-						role_names.push(...courses)
-						const guild = client.getGuildCache()
-						const roles = guild.roles.cache.filter(r => role_names.includes(r.name))
-						const cacheMember = guild.members.cache.get(m.user.id);
-						await cacheMember.roles.remove(cacheMember.roles.cache.filter(r => all_roles.includes(r.name)));
-						await cacheMember.roles.add(roles);
-						
-					} else {
+				);
+	
+				const getCoursesRow = (ibProgram, rand) =>
+					new MessageActionRow().addComponents(
+						new MessageSelectMenu()
+							.setCustomId(`select-courses-${rand}`)
+							.setPlaceholder("Select your courses")
+							.setMinValues(ibProgram === "Full IB" ? 6 : 2)
+							.setMaxValues(ibProgram === "Full IB" ? 6 : 5)
+							.addOptions([
+								{ label: "Physics SL", value: "Physics SL" },
+								{ label: "Biology SL", value: "Biology SL" },
+								{ label: "Chemistry HL", value: "Chemistry HL" },
+								{ label: "Math HL", value: "Math HL" },
+								{ label: "Math SL", value: "Math SL" },
+								{ label: "ELA HL", value: "ELA HL" },
+								{ label: "Psychology SL", value: "Psychology SL" },
+								{
+									label: "World History HL",
+									value: "World History HL",
+								},
+								{
+									label: "Computer Science HL",
+									value: "Computer Science HL",
+								},
+								{
+									label: "Business Management SL",
+									value: "Business Management SL",
+								},
+								{ label: "Economics HL", value: "Economics HL" },
+								{ label: "Art HL", value: "Art HL" },
+								{ label: "Cantonese SL", value: "Cantonese SL" },
+								{ label: "French SL", value: "French SL" },
+								{
+									label: "French ab initio",
+									value: "French ab initio",
+								},
+								{
+									label: "German ab initio",
+									value: "German ab initio",
+								},
+								{ label: "Mandarin SL", value: "Mandarin SL" },
+								{
+									label: "Mandarin ab initio",
+									value: "Mandarin ab initio",
+								},
+								{
+									label: "Spanish ab initio",
+									value: "Spanish ab initio",
+								},
+							])
+				);
+	
+				await m.send(
+					client.simpleEmbed(
+						"First, choose either full or partial IB.",
+						"#a1edc3",
+						false,
+						{ components: [fullOrPartialRow] }
+					)
+				);
+	
+				client.on('interactionCreate', async (i) => {
+					if (!i.isSelectMenu()) return;
+				
+					if (i.customId === `select-full-or-partial-${programmeRand}`) {
+						role_names = i.values;
 						const coursesRow = getCoursesRow(role_names[0], coursesRand);
 						i.update(
 							client.simpleEmbed(
-								`${msg} Please reselect valid courses.`,
-								"#eb4261",
+								"Great! Next, pick your courses. (IB courses only)",
+								"#a1edc3",
 								false,
 								{ components: [coursesRow] }
 							)
 						);
+	
+					} else if (i.customId === `select-courses-${coursesRand}`){
+						const courses = i.values;
+						const { status, msg } = checkCourses(courses, role_names[0] === "Full IB");
+						if(status){
+							i.update(
+								client.simpleEmbed(
+									"✅ Perfect, you're all set! If you don't get verified/don't recieve roles on server due to an error, contact an admin for manual verification.",
+									"#a1edc3",
+									false,
+									{ components: [] }
+								)
+							);
+							
+							//ROLES CODE
+							role_names.push(...courses)
+							const guild = client.getGuildCache()
+							const roles = guild.roles.cache.filter(r => role_names.includes(r.name))
+							const cacheMember = guild.members.cache.get(m.user.id);
+							await cacheMember.roles.remove(cacheMember.roles.cache.filter(r => all_roles.includes(r.name)));
+							await cacheMember.roles.add(roles);
+							
+						} else {
+							const coursesRow = getCoursesRow(role_names[0], coursesRand);
+							i.update(
+								client.simpleEmbed(
+									`${msg} Please reselect valid courses.`,
+									"#eb4261",
+									false,
+									{ components: [coursesRow] }
+								)
+							);
+						}
 					}
-				}
-			});
-
-			console.log(`Roles Error sent to ${m.user.username}`)
+				});
+	
+				console.log(`Roles Error sent to ${m.user.username}`)
+			} catch (e) {
+				console.log(`Cannot message ${m.user.username}`)
+			}
 		})
 
 		
