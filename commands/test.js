@@ -247,7 +247,7 @@ module.exports = {
 					if (i.customId === `select-full-or-partial-${programmeRand}`) {
 						role_names = i.values;
 						const coursesRow = getCoursesRow(role_names[0], coursesRand);
-						i.update(
+						await i.update(
 							client.simpleEmbed(
 								"Great! Next, pick your courses. (IB courses only)",
 								"#a1edc3",
@@ -260,7 +260,7 @@ module.exports = {
 						const courses = i.values;
 						const { status, msg } = checkCourses(courses, role_names[0] === "Full IB");
 						if(status){
-							i.update(
+							await i.update(
 								client.simpleEmbed(
 									"✅ Perfect, you're all set! If you don't get verified/don't recieve roles on server due to an error, contact an admin for manual verification.",
 									"#a1edc3",
@@ -279,7 +279,7 @@ module.exports = {
 							
 						} else {
 							const coursesRow = getCoursesRow(role_names[0], coursesRand);
-							i.update(
+							await i.update(
 								client.simpleEmbed(
 									`${msg} Please reselect valid courses.`,
 									"#eb4261",
