@@ -128,21 +128,20 @@ const checkCourses = (courses, isfullIB) => {
 
 const invalids = [
 	"GauthamV#1069", //REMOVE
-	"JoeyZhangOfficial#1632",
-	"vlvt#0001",
-	"Acerix#3539",
-	"ssrl#7811",
-	"century#6397",
-	"Dimplesduck#7895",
-	"Eric Yuan#5895",
+	"JoeyZhangOfficial#1632",//
+	"vlvt#0001",//
+	"Acerix#3539",//
+	"ssrl#7811",//
+	"century#6397",//
+	"Dimplesduck#7895",//
+	"Eric Yuan#5895",//
 	"hubhib#6997",
-	"Jun#1808",
-	"kevinli1263728#9865",
-	"Dave the minion#4861",
-	"[阿莫古斯 ඞ]#5079",
-	"TomxmoT#0044",
-	"YiFan#2385",
-	"youna#9409",
+	"Jun#1808",//
+	"kevinli1263728#9865",//
+	"Dave the minion#4861",//
+	"[阿莫古斯 ඞ]#5079",//
+	"TomxmoT#0044",//
+	"YiFan#2385",//
 	"xiyte#0001",
 ];
 
