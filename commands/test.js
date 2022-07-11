@@ -121,9 +121,13 @@ const checkCourses = (courses, isfullIB) => {
 	return { status: true, msg: "" };
 };
 
+//995861054921900142
+
+
+
+
 const invalids = [
 	"GauthamV#1069", //REMOVE
-	"BubbleTeaHoodie#0682", //REMOVE
 	"JoeyZhangOfficial#1632",
 	"vlvt#0001",
 	"Acerix#3539",
@@ -160,6 +164,7 @@ module.exports = {
 		const invalidRoleMsg = "Looks like your roles on the 2024 IB server do not meet IB requirements or have conflicts in them! Please reselect your classes below."
 		invalidMembers.forEach(async (m) => {
 			try{
+				console.log(m.user.username)
 				m.send(client.simpleEmbedSmall(invalidRoleMsg, "#fc2c03", false));
 	
 				let role_names = [];
