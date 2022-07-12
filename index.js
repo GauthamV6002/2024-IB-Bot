@@ -23,7 +23,11 @@ const client = new Client({
 		Intents.FLAGS.GUILD_MEMBERS,
 		Intents.FLAGS.DIRECT_MESSAGES,
 		Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-		Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS
+		Intents.FLAGS.DIRECT_MESSAGE_TYPING,
+		Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
+		Intents.FLAGS.GUILD_MESSAGES,
+		Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+		Intents.FLAGS.GUILD_MESSAGE_TYPING,
 	],
 });
 client.commands = new Collection(); 
@@ -86,6 +90,7 @@ client.checkKO = (c, i) => {
 
 client.simpleEmbed = (msg, color, ephemeral=false, args={}) => ({ embeds: [{ color: color, title: msg }], ephemeral: ephemeral, ...args });
 client.simpleEmbedSmall = (msg, color, ephemeral=false, args={}) => ({ embeds: [{ color: color, description: msg }], ephemeral: ephemeral, ...args });
+client.simpleEmbedComponents = (msg, color, components, ephemeral=false, args={}) => ({ embeds: [{ color: color, description: msg }], ephemeral: ephemeral, components: components, ...args });
 client.getGuildCache = () => client.guilds.cache.get(guildId)
 client.getMemberCache = (id) => client.guilds.cache.get(guildId).members.cache.get(id);
 

@@ -114,7 +114,7 @@ module.exports = {
                     {label: "Partial IB", value: "Partial IB"}
                 ])
         );
-
+		
         const getCoursesRow = (ibProgram, rand) => (
             new MessageActionRow().addComponents(
 				new MessageSelectMenu()
@@ -145,16 +145,13 @@ module.exports = {
 					])
 				)
         )
-        
-        interaction.reply(client.simpleEmbed("Check your DMs.", "#a1edc3", true));
-        await interaction.user.send(
-			client.simpleEmbed(
-				"First, choose either full or partial IB.",
-				"#a1edc3",
-				false,
-				{ components: [fullOrPartialRow] }
-			)
-		);
+		
+        interaction.reply(client.simpleEmbed(
+			"First, choose either full or partial IB.",
+			"#a1edc3",
+			true,
+			{ components: [fullOrPartialRow] }
+		));
         
         client.on('interactionCreate', async (i) => {
             if (!i.isSelectMenu()) return;
@@ -166,7 +163,7 @@ module.exports = {
 					client.simpleEmbed(
 						"Great! Next, pick your courses. (IB courses only)",
 						"#a1edc3",
-						false,
+						true,
 						{ components: [coursesRow] }
 					)
 				);
@@ -179,7 +176,7 @@ module.exports = {
 						client.simpleEmbed(
 							"✅ Perfect, you're all set! If you don't get verified/don't recieve roles on server due to an error, contact an admin for manual verification.",
 							"#a1edc3",
-							false,
+							true,
 							{ components: [] }
 						)
 					);
@@ -197,7 +194,7 @@ module.exports = {
 						client.simpleEmbed(
 							`${msg} Please reselect valid courses.`,
 							"#eb4261",
-							false,
+							true,
 							{ components: [coursesRow] }
 						)
 					);
