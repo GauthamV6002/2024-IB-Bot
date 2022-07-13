@@ -26,7 +26,7 @@ module.exports = {
 		);
         const amount = interaction.options.getInteger("amount");
         if(amount < 1){
-            interaction.reply({content: "❌ Pick a value over 0.", ephemeral: true});
+            interaction.reply(client.simpleEmbedSmall("❌ Pick a value over 0.", "#34ebeb", true));
             return;
         }
 

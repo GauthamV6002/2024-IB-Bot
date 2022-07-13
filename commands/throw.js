@@ -68,7 +68,7 @@ module.exports = {
 			if(target.snowCurrentHealth - user.snowAttack <= 0){
 				target.snowCurrentHealth = target.snowHealth;
 				const koMsg = `:boxing_glove: **KO!** ${interaction.options.getUser("target")} was hit!`
-				interaction.reply(client.simpleEmbedSmall(koMsg, "#34ebeb", true));
+				interaction.reply(client.simpleEmbedSmall(koMsg, "#34ebeb"));
 				client.snowKOs[interaction.options.getUser("target").id] = true;
 				setTimeout(() => {
 					client.snowKOs[interaction.options.getUser("target").id] = false;
