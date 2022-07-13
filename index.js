@@ -91,6 +91,7 @@ client.checkKO = (c, i) => {
 client.simpleEmbed = (msg, color, ephemeral=false, args={}) => ({ embeds: [{ color: color, title: msg }], ephemeral: ephemeral, ...args });
 client.simpleEmbedSmall = (msg, color, ephemeral=false, args={}) => ({ embeds: [{ color: color, description: msg }], ephemeral: ephemeral, ...args });
 client.simpleEmbedComponents = (msg, color, components, ephemeral=false, args={}) => ({ embeds: [{ color: color, description: msg }], ephemeral: ephemeral, components: components, ...args });
+client.simpleEmbedSnow = (title, description, args={}) => ({ embeds: [{ color: "#34ebeb", description: description, title: title }], ephemeral: ephemeral, ...args });
 client.getGuildCache = () => client.guilds.cache.get(guildId)
 client.getMemberCache = (id) => client.guilds.cache.get(guildId).members.cache.get(id);
 

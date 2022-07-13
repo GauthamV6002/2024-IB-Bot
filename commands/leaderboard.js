@@ -34,9 +34,11 @@ module.exports = {
 				const member = client.guilds.cache
 					.get(guildId)
 					.members.cache.get(user.discordID);
-                member.roles.remove(role);
-				user.isSnowMonarch = false;
-				user.save();
+                if(member){
+                    member.roles.remove(role);
+                    user.isSnowMonarch = false;
+                    user.save();
+                }
 			}
 		});
 
@@ -44,9 +46,11 @@ module.exports = {
 			.get(guildId)
 			.members.cache.get(users[0].discordID);
         
-        member.roles.add(role);
-        users[0].isSnowMonarch = true;
-		users[0].save();
+        if(member){
+            member.roles.add(role);
+            users[0].isSnowMonarch = true;
+            users[0].save();
+        }
 
 
     },

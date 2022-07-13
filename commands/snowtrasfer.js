@@ -31,7 +31,8 @@ module.exports = {
         }
 
         if(user.snowPoints - amount < 0){
-            interaction.reply({content: "❌ You don't have enough snowpoints!", ephemeral: true});
+            interaction.reply(client.simpleEmbedSmall("❌ You don't have enough snowpoints!", "#34ebeb", true));
+            
             return;
         }
 
@@ -40,6 +41,7 @@ module.exports = {
         user.save();
         receiver.save();
 
-        interaction.reply(`✅ Transfer Successful! ${amount} :snowflake: was transferred to ${interaction.options.getUser("receiver")} by ${interaction.user}.`);
+        const transferMsg = `✅ Transfer Successful! ${amount} :snowflake: was transferred to ${interaction.options.getUser("receiver")} by ${interaction.user}.`
+        interaction.reply(client.simpleEmbedSmall(transferMsg, "#34ebeb"))
     },
 }

@@ -23,29 +23,30 @@ module.exports = {
 		),
 	async execute(interaction, client) {
 		if(interaction.options.getUser("target").id === interaction.user.id){
-			interaction.reply({content: "Why are you shooting at yourself?", ephemeral: true})
+			interaction.reply(client.simpleEmbedSmall("Why are you shooting at yourself?", "#34ebeb", true))
 			return;
 		}
 		if (interaction.options.getUser("target").id === clientId){
-			interaction.reply("You dare strike me? Do it again and I'll remove all your snow points!");
+			interaction.reply(client.simpleEmbedSmall("You dare strike me? Do it again and I'll remove all your snow points!", "#34ebeb"));
+			
 			return;
 		}
 		if(BOT_IDS.includes(interaction.options.getUser("target").id)){
-			interaction.reply({content: "Bruh no farming bots", ephemeral: true})
+			interaction.reply(client.simpleEmbedSmall("Bruh no farming bots", "#34ebeb", true))
 			return;
 		}
 		const guild = client.guilds.cache.get(guildId);
 		const targetMember = guild.members.cache.get((interaction.options.getUser("target").id).toString());
 		const userMember = guild.members.cache.get((interaction.user.id).toString());
 
-
+		const offlineMsg = "You can't throw if you are offline, or throw at offline people!";
 		try {	
 			if(targetMember.presence.status === "offline" || userMember.presence.status === "offline"){
-				interaction.reply("You can't throw if you are offline, or throw at offline people!");
+				interaction.reply(client.simpleEmbedSmall(offlineMsg, "#34ebeb", true));
 				return;
 			}
 		} catch (e) {
-			interaction.reply("You can't throw if you are offline, or throw at offline people!");
+			interaction.reply(client.simpleEmbedSmall(offlineMsg, "#34ebeb", true));
 			return;
 		}
 
@@ -59,14 +60,15 @@ module.exports = {
 		);
 
 		if(user.snowCurrentSnowballs <= 0){
-			interaction.reply({content: "❌ You have no snowballs! Make one with /collect.", ephemeral: true});
+			interaction.reply(client.simpleEmbedSmall("❌ You have no snowballs! Make one with `/collect`.", "#34ebeb", true));
 			return;
 		}
 
 		if (Math.random() <= target.snowSpeed) {
 			if(target.snowCurrentHealth - user.snowAttack <= 0){
-				target.snowCurrentHealth = target.snowHealth; 
-				interaction.reply(`:boxing_glove: **KO!** ${interaction.options.getUser("target")} was hit!`);
+				target.snowCurrentHealth = target.snowHealth;
+				const koMsg = `:boxing_glove: **KO!** ${interaction.options.getUser("target")} was hit!`
+				interaction.reply(client.simpleEmbedSmall(koMsg, "#34ebeb", true));
 				client.snowKOs[interaction.options.getUser("target").id] = true;
 				setTimeout(() => {
 					client.snowKOs[interaction.options.getUser("target").id] = false;
@@ -79,16 +81,14 @@ module.exports = {
 				user.snowPoints += 2;
 			} else {
 				target.snowCurrentHealth -= user.snowAttack;
-				interaction.reply(
-					`🎯 The snowball hit! ${interaction.options.getUser(
-						"target"
-					)} is now at ${target.snowCurrentHealth} Health!`
-				);
+				const hitMsg = `🎯 The snowball hit! ${interaction.options.getUser("target")} is now at ${target.snowCurrentHealth} Health!`
+				interaction.reply(client.simpleEmbedSmall(hitMsg, "#34ebeb"));
 				user.snowPoints++;
 				user.snowHits++;
 			}	
 		} else {
-			interaction.reply(`😔 Oops, you missed your shot at ${interaction.options.getUser("target")}!`);
+			const missMsg = `😔 Oops, you missed your shot at ${interaction.options.getUser("target")}!`
+			interaction.reply(client.simpleEmbedSmall(missMsg, "#34ebeb", true));
 		}
 		user.snowCurrentSnowballs--;
 		user.snowThrown++;
