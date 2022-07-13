@@ -88,7 +88,7 @@ module.exports = {
 			}	
 		} else {
 			const missMsg = `😔 Oops, you missed your shot at ${interaction.options.getUser("target")}!`
-			interaction.reply(client.simpleEmbedSmall(missMsg, "#34ebeb", true));
+			interaction.reply(client.simpleEmbedSmall(missMsg, "#34ebeb"));
 		}
 		user.snowCurrentSnowballs--;
 		user.snowThrown++;
