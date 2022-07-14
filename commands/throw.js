@@ -68,7 +68,11 @@ module.exports = {
 			if(target.snowCurrentHealth - user.snowAttack <= 0){
 				target.snowCurrentHealth = target.snowHealth;
 				const koMsg = `:boxing_glove: **KO!** ${interaction.options.getUser("target")} was hit!`
-				interaction.reply(client.simpleEmbedSmall(koMsg, "#34ebeb"));
+				interaction.reply(client.simpleEmbedSmall(koMsg, 
+					"#34ebeb",
+					false,
+					{ content: target.mentionsOn ? interaction.options.getUser("target").toString() : null }
+				));
 				client.snowKOs[interaction.options.getUser("target").id] = true;
 				setTimeout(() => {
 					client.snowKOs[interaction.options.getUser("target").id] = false;
@@ -82,13 +86,21 @@ module.exports = {
 			} else {
 				target.snowCurrentHealth -= user.snowAttack;
 				const hitMsg = `🎯 The snowball hit! ${interaction.options.getUser("target")} is now at ${target.snowCurrentHealth} Health!`
-				interaction.reply(client.simpleEmbedSmall(hitMsg, "#34ebeb"));
+				interaction.reply(client.simpleEmbedSmall(hitMsg, 
+					"#34ebeb", 
+					false, 
+					{ content: target.mentionsOn ? interaction.options.getUser("target").toString() : null}
+				));
 				user.snowPoints++;
 				user.snowHits++;
 			}	
 		} else {
 			const missMsg = `😔 Oops, you missed your shot at ${interaction.options.getUser("target")}!`
-			interaction.reply(client.simpleEmbedSmall(missMsg, "#34ebeb"));
+			interaction.reply(client.simpleEmbedSmall(missMsg, 
+				"#34ebeb", 
+				false, 
+				{ content: target.mentionsOn ? interaction.options.getUser("target").toString(): null}
+			));
 		}
 		user.snowCurrentSnowballs--;
 		user.snowThrown++;

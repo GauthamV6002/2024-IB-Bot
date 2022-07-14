@@ -66,6 +66,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+	mentionsOn: {
+		type: Boolean,
+		default: false
+	},
 
 	//MISC
 	misc: Object,

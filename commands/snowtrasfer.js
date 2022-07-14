@@ -41,7 +41,11 @@ module.exports = {
         user.save();
         receiver.save();
 
+        mentions = {
+            content: user.mentionsOn ? interaction.options.getUser("receiver").toString() : null
+        }
+
         const transferMsg = `✅ Transfer Successful! ${amount} :snowflake: was transferred to ${interaction.options.getUser("receiver")} by ${interaction.user}.`
-        interaction.reply(client.simpleEmbedSmall(transferMsg, "#34ebeb"))
+        interaction.reply(client.simpleEmbedSmall(transferMsg, "#34ebeb", false, mentions))
     },
 }
