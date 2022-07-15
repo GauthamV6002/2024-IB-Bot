@@ -10,7 +10,7 @@ module.exports = {
 			.setColor("#b3fcff")
 			.setTitle("2022 Summer Dictator Election")
 			.addFields(
-				{ name: "Alex G", value: "vote for me, because if you don't i will climb to power and make sure you regret it" },
+				{ name: "Alex G:", value: "vote for me, because if you don't i will climb to power and make sure you regret it" },
 				{ name: "Emily U:", value: " ._. froge [@target]" },
 				{ name: "Eric L:", value: "insert slogan here" },
 				{ name: "Fidel Castro (Raif Z):", value: "No Slogan :(" },
