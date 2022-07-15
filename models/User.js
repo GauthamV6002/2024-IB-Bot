@@ -72,7 +72,10 @@ const userSchema = new mongoose.Schema({
 	},
 
 	//MISC
-	misc: Object,
+	misc: {
+		type: Object,
+		default: {}
+	},
 });
 
 module.exports = mongoose.model("User", userSchema);
